@@ -35,7 +35,7 @@ public class DestroyByContact : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Instantiate(playerExplosionEffect, other.transform.position, Quaternion.identity);
-            //gameController.GameOver();
+            gameController.GameOver();
         }
         Destroy(other.gameObject);
         Destroy(gameObject);
