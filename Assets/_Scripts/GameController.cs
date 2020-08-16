@@ -1,34 +1,50 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using JetBrains.Annotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject hazard;
+    public GameObject[] hazards;
     public Vector3 spawnValues;
     public float startWait;
     public float spawnWait;
     public float waveWait;
-    public float hazardCount;
+    public int hazardCount;
 
-   
+    public float spawnCounter;
 
     public Text scoreText;
     int score;
     public GameObject gameOverPanel;
-    bool IsGameOver = true;
+    bool isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnWaves());
+        //StartCoroutine(SpawnWaves());
         gameOverPanel.SetActive(false);
         UpdateText();
     }
 
+    private void Update()
+    {
+        if (isGameOver)
+        {
+            return;
+        }
+        spawnCounter += Time.deltaTime;
+        if (spawnCounter >= spawnWait)
+        {
+            GameObject hazard = hazards[Random.Range(0, hazards.Length)];
+            Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+            Instantiate(hazard, spawnPosition, Quaternion.identity);
 
+            spawnCounter = 0;
+        }
+    }
 
     public void AddScore(int newScore)
     {
@@ -36,7 +52,7 @@ public class GameController : MonoBehaviour
         UpdateText();
     }
 
-
+  
 
     void UpdateText()
     {
@@ -50,8 +66,9 @@ public class GameController : MonoBehaviour
 
         while (true)
         {
-            for (float i = 0; i < hazardCount; i++)
+            for (int i = 0; i < hazardCount; i++)
             {
+                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Instantiate(hazard, spawnPosition, Quaternion.identity);
                 yield return new WaitForSeconds(spawnWait);
@@ -59,32 +76,16 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(waveWait);
         }
     }
-    private void Update()
-    {
-        if (IsGameOver)
-        {
-            return;
-        }
-        hazardCount += Time.deltaTime;
-        if (hazardCount >= spawnWait)
-        {
-            Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-            Instantiate(hazard, spawnPosition, Quaternion.identity);
-
-            hazardCount = 0;
-        }
-    }
 
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
-        IsGameOver = true;
+        isGameOver = true;
     }
 
     public void RestartButtonClick()
     {
-        SceneManager.LoadScene("scene1");
+        SceneManager.LoadScene("Scene1");
         //SceneManager.LoadScene(0);
     }
 }
-
