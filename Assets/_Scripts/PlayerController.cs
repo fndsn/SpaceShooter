@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     public float speed;
     public float tilt;
-    public Boundry boundry;
+    public Boundary boundary;
     public GameObject bolt;
-    public Transform shotSpawn;
+    public Transform [] shotSpawns;
     public float fireRate;
     float nextFire;
     private AudioSource playerShoot;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
+            foreach (var shotSpawn in shotSpawns)
             Instantiate(bolt, shotSpawn.position, shotSpawn.rotation);
             playerShoot.Play();
         }
@@ -41,14 +43,14 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = movement * speed;
 
-        rb.position = new Vector3(Mathf.Clamp(rb.position.x, boundry.minX, boundry.maxX), rb.position.y, Mathf.Clamp(rb.position.z, boundry.minZ, boundry.maxZ));
+        rb.position = new Vector3(Mathf.Clamp(rb.position.x, boundary.minX, boundary.maxX), rb.position.y, Mathf.Clamp(rb.position.z, boundary.minZ, boundary.maxZ));
 
         rb.rotation = Quaternion.Euler(0, 0, rb.velocity.x * -tilt);
     }
 }
 
 [System.Serializable]
-public class Boundry
+public class Boundary
 {
     public float minX, maxX, minZ, maxZ;
 }
