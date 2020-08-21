@@ -13,8 +13,9 @@ public class GameController : MonoBehaviour
     public float spawnWait;
     public float waveWait;
     public int hazardCount;
+    public GameObject restartButton;
 
-    public float spawnCounter;
+    private float spawnCounter;
 
     public Text scoreText;
     int score;
@@ -83,9 +84,11 @@ public class GameController : MonoBehaviour
         isGameOver = true;
     }
 
-    public void RestartButtonClick()
+    public void RestartGame()
     {
         SceneManager.LoadScene("Scene1");
         //SceneManager.LoadScene(0);
     }
+
 }
+

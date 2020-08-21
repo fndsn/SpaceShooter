@@ -16,7 +16,7 @@ public class Mover : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Boundry"))
+        if (other.CompareTag("Boundary"))
         {
             Destroy(gameObject);
         }

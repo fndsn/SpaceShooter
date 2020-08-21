@@ -11,7 +11,7 @@ public class DestroyByContact : MonoBehaviour
 
 
 
-	private void Start()
+	 void Start()
 	{
 		GameObject gameControllerObject = GameObject.FindWithTag("GameController");
 		if (gameControllerObject != null)
@@ -44,5 +44,11 @@ public class DestroyByContact : MonoBehaviour
         gameController.AddScore(scoreValue);
         Destroy(other.gameObject);
 		Destroy(gameObject);
+	}
+
+	[System.Serializable]
+	public class Boundary
+	{
+		public float minX, maxX, minZ, maxZ;
 	}
 }

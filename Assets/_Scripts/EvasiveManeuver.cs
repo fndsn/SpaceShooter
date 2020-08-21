@@ -43,11 +43,16 @@ public class EvasiveManeuver : MonoBehaviour
         rb.position = new Vector3
         (
             Mathf.Clamp(rb.position.x, boundary.minX, boundary.maxX),
-            0.0f,
+           rb.position.y,
             Mathf.Clamp(rb.position.z, boundary.minZ, boundary.maxZ)
-        );
+        ) ;
 
         rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
+    }
+    [System.Serializable]
+    public class Boundary
+    {
+        public float minX, maxX, minZ, maxZ;
     }
 }
 
